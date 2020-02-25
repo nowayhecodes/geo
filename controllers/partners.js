@@ -65,12 +65,18 @@ exports.create = async (req, res, next) => {
  * @description Searchs for a partner with a
  * given location (coordinates lng and lat)
  *
- * @route POST /api/v1/partner
+ * @route POST /api/v1/partner/search
  */
 exports.search = async (req, res, next) => {
   await Partner.find({
-    address: {
-      coordinates: [req.body.lng, req.body.lat]
+    coverageArea: {
+      $near: {
+        $geometry: {
+          type: "MultiPolygon",
+          coordinates: [req.body.lng, req.body.lat]
+        },
+        $maxDistance: req.body.maxDistance
+      }
     }
   })
     .then(data => {
@@ -86,13 +92,3 @@ exports.search = async (req, res, next) => {
       });
     });
 };
-
-
-// coverageArea: {
-//   $geoWithin: {
-//     $geometry: {
-//       type: "Point",
-//       coordinates: [req.body.lng, req.body.lat]
-//     }
-//   }
-// }
