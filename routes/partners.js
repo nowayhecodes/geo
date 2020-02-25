@@ -5,6 +5,6 @@ router
   .get("/partners", partners.findAll)
   .get("/partner/:id", partners.findById)
   .post("/partner", partners.create)
-  .post("/partner", partners.search);
+  .post("/partner/search", partners.search);
 
 module.exports = router;

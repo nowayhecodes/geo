@@ -69,14 +69,8 @@ exports.create = async (req, res, next) => {
  */
 exports.search = async (req, res, next) => {
   await Partner.find({
-    coverageArea: {
-      $near: {
-        $maxDistance: req.body.maxDistance, // The distance (radius) in meters
-        $geometry: {
-          type: "Point",
-          coordinates: [req.body.lng, req.body.lat]
-        }
-      }
+    address: {
+      coordinates: [req.body.lng, req.body.lat]
     }
   })
     .then(data => {
@@ -92,3 +86,13 @@ exports.search = async (req, res, next) => {
       });
     });
 };
+
+
+// coverageArea: {
+//   $geoWithin: {
+//     $geometry: {
+//       type: "Point",
+//       coordinates: [req.body.lng, req.body.lat]
+//     }
+//   }
+// }
