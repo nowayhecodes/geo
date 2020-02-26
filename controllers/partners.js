@@ -70,12 +70,10 @@ exports.create = async (req, res, next) => {
 exports.search = async (req, res, next) => {
   await Partner.find({
     coverageArea: {
-      $near: {
-        $geometry: {
-          type: "MultiPolygon",
-          coordinates: [req.body.lng, req.body.lat]
-        },
-        $maxDistance: req.body.maxDistance
+      $geoWithin: {
+        $centerSphere: [          
+          [req.body.lng, req.body.lat], 5 / 3963.2 // 5km radius in radians
+        ]
       }
     }
   })
@@ -86,7 +84,7 @@ exports.search = async (req, res, next) => {
       });
     })
     .catch(e => {
-      res.status(400).json({
+      res.status(500).json({
         success: false,
         error: e
       });

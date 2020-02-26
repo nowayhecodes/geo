@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const connect = async () => {
   try {
-    const conn = await mongoose.connect("mongodb://localhost:27017/geo", {
+    const conn = await mongoose.connect("mongodb://GEO_MONGO:27017/geo", {
       useNewUrlParser: true,
       useFindAndModify: false,
       useCreateIndex: true,

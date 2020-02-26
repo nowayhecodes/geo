@@ -1,0 +1,27 @@
+version: '3'
+
+services: 
+  geo:
+    container_name: GEO
+    build: '.'
+    volumes: 
+      - ./:/geo
+      - ./node_modules:/geo/node_modules
+    environment: 
+      NODE_ENV: development
+    depends_on: 
+      - db
+    links:
+      - db
+    ports: 
+      - '5000:5000'
+
+  db:
+    image: 'mongo'
+    container_name: GEO_MONGO
+    ports: 
+      - '27017:27017'
+    volumes: 
+      - ./data/db:/data/db
+    entrypoint: 
+      - mongod
